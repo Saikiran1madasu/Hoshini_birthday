@@ -45,8 +45,8 @@
 </head>
 <body class="bg-obsidian text-slate-100 font-sans h-full min-h-screen overflow-x-hidden selection:bg-amber-400 selection:text-black">
 
-  <!-- Ambient Dynamic Aura Glow -->
-  <div id="spatial-ambient-aura" class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-gradient-to-tr from-amber-500/15 via-rose-500/15 to-violet-600/15 blur-[120px] pointer-events-none -z-10 transition-transform duration-700"></div>
+  <!-- Ambient Dynamic Aura Glow (Optimized zero-cost radial gradient) -->
+  <div id="spatial-ambient-aura" class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full pointer-events-none -z-10 transition-transform duration-700" style="background: radial-gradient(circle, rgba(251,191,36,0.12) 0%, rgba(244,63,94,0.08) 45%, transparent 70%);"></div>
 
   <!-- Real Audio Element: Happy Birthday Song -->
   <audio id="birthday-audio" src="happy_birthday.mp3" loop preload="auto" playsinline webkit-playsinline></audio>
@@ -314,15 +314,11 @@
         "Wishing you a year filled with endless laughter, boundless happiness, and all the dreams your heart can hold."
       </p>
 
-      <!-- Quick Action Buttons -->
-      <div class="mt-2 flex flex-wrap justify-center items-center gap-2.5 sm:gap-3">
-        <button onclick="launchCelebrationExplosion(event)" class="px-4 sm:px-5 py-2 rounded-full bg-amber-500/20 hover:bg-amber-500/30 border border-amber-400/40 text-amber-300 text-xs font-mono transition-all flex items-center gap-2 active:scale-95 shadow-lg shadow-amber-500/10 hover:scale-105 cursor-pointer">
+      <!-- Quick Celebrate Cheer Button -->
+      <div class="mt-2 flex items-center justify-center">
+        <button onclick="launchCelebrationExplosion(event)" class="px-5 py-2 rounded-full bg-amber-500/20 hover:bg-amber-500/30 border border-amber-400/40 text-amber-300 text-xs font-mono transition-all flex items-center gap-2 active:scale-95 shadow-lg shadow-amber-500/10 hover:scale-105 cursor-pointer">
           <span>🎉</span>
           <span>Shower with Confetti!</span>
-        </button>
-        <button onclick="toggleEditorialLetter(event)" class="px-4 sm:px-5 py-2 rounded-full bg-gradient-to-r from-amber-400 via-amber-300 to-amber-500 text-black text-xs font-mono font-bold transition-all flex items-center gap-2 active:scale-95 shadow-lg shadow-amber-500/25 hover:scale-105 cursor-pointer">
-          <span>📜</span>
-          <span>Open Birthday Letter</span>
         </button>
       </div>
     </div>

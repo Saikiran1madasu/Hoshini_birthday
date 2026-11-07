@@ -406,23 +406,22 @@ function initSmoothGyroscope() {
     targetTiltY = Math.max(-8, Math.min(8, deltaGamma * 0.35));
   }, { passive: true });
 
-  // Silky 60fps LERP interpolation loop (eliminates shaking/jitter)
+  // High-performance smooth LERP interpolation loop (settles and pauses when stable)
+  let gyroAnimId = null;
   function renderGyroLoop() {
     if (isGyroActive && card && !isDesktopPointer.matches) {
-      currentTiltX += (targetTiltX - currentTiltX) * 0.08;
-      currentTiltY += (targetTiltY - currentTiltY) * 0.08;
+      const diffX = targetTiltX - currentTiltX;
+      const diffY = targetTiltY - currentTiltY;
 
-      card.style.transform = `perspective(1000px) rotateX(${currentTiltX.toFixed(2)}deg) rotateY(${currentTiltY.toFixed(2)}deg)`;
-
-      // Dynamic specular highlight reflection
-      const specX = 50 + currentTiltY * 3.5;
-      const specY = 40 + currentTiltX * 3.5;
-      card.style.setProperty('--mouse-x', `${specX}%`);
-      card.style.setProperty('--mouse-y', `${specY}%`);
+      if (Math.abs(diffX) > 0.04 || Math.abs(diffY) > 0.04) {
+        currentTiltX += diffX * 0.1;
+        currentTiltY += diffY * 0.1;
+        card.style.transform = `perspective(1000px) rotateX(${currentTiltX.toFixed(1)}deg) rotateY(${currentTiltY.toFixed(1)}deg)`;
+      }
     }
-    requestAnimationFrame(renderGyroLoop);
+    gyroAnimId = requestAnimationFrame(renderGyroLoop);
   }
-  requestAnimationFrame(renderGyroLoop);
+  renderGyroLoop();
 }
 
 // ==========================================
@@ -622,7 +621,21 @@ class Particle {
   }
 }
 
+let isParticleLoopActive = false;
+
+function startParticleLoop() {
+  if (isParticleLoopActive) return;
+  isParticleLoopActive = true;
+  requestAnimationFrame(animateParticles);
+}
+
 function animateParticles() {
+  if (particles.length === 0) {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    isParticleLoopActive = false;
+    return; // Completely pause loop when no particles exist!
+  }
+
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   for (let i = particles.length - 1; i >= 0; i--) {
     particles[i].update();
@@ -633,60 +646,38 @@ function animateParticles() {
   }
   requestAnimationFrame(animateParticles);
 }
-animateParticles();
-
-// Interactive Click Spark Emitter
-window.addEventListener('click', (e) => {
-  if (e.target.closest('#editorial-letter-modal')) return;
-  for (let i = 0; i < 6; i++) {
-    particles.push(new Particle(e.clientX, e.clientY, false));
-  }
-});
 
 // Single Point Celebration Explosion
 function launchCelebrationExplosion(e) {
   initAudioContext();
   playChimeEffect(523.25);
-  setTimeout(() => playChimeEffect(659.25), 100);
-  setTimeout(() => playChimeEffect(783.99), 200);
 
   const originX = e && e.clientX ? e.clientX : window.innerWidth / 2;
   const originY = e && e.clientY ? e.clientY : window.innerHeight / 2;
 
-  for (let i = 0; i < 80; i++) {
+  for (let i = 0; i < 60; i++) {
     particles.push(new Particle(originX, originY, true));
   }
+  startParticleLoop();
 }
 
 // Directional Cannon Burst
-function fireCannonBurst(originX, originY, baseAngleDeg, spreadDeg, count = 45) {
+function fireCannonBurst(originX, originY, baseAngleDeg, spreadDeg, count = 35) {
   for (let i = 0; i < count; i++) {
     const angleRad = ((baseAngleDeg + (Math.random() - 0.5) * spreadDeg) * Math.PI) / 180;
-    const speed = Math.random() * 14 + 10;
+    const speed = Math.random() * 12 + 8;
     particles.push(new Particle(originX, originY, true, angleRad, -speed));
   }
+  startParticleLoop();
 }
 
 // Full Automatic Dual Cannon Show
 function launchAutoConfettiShow() {
   // Left cannon shooting up-right
-  fireCannonBurst(0, window.innerHeight * 0.9, 45, 35, 55);
+  fireCannonBurst(0, window.innerHeight * 0.9, 45, 30, 40);
   // Right cannon shooting up-left
-  fireCannonBurst(window.innerWidth, window.innerHeight * 0.9, 135, 35, 55);
-  // Center overhead burst
-  launchCelebrationExplosion({ clientX: window.innerWidth / 2, clientY: window.innerHeight * 0.3 });
-}
-
-// Gentle Ambient Confetti Stream
-function spawnAmbientConfetti() {
-  if (particles.length > 180) return;
-  for (let i = 0; i < 2; i++) {
-    const x = Math.random() * window.innerWidth;
-    const p = new Particle(x, -10, true);
-    p.speedY = Math.random() * 2 + 1;
-    p.gravity = 0.08;
-    particles.push(p);
-  }
+  fireCannonBurst(window.innerWidth, window.innerHeight * 0.9, 135, 30, 40);
+  startParticleLoop();
 }
 
 // ==========================================
@@ -710,9 +701,6 @@ window.addEventListener('DOMContentLoaded', () => {
     });
     readLetterBtn.addEventListener('touchend', handleLetterTouch, { passive: false });
   }
-
-  // Keep gentle ambient confetti flowing
-  setInterval(spawnAmbientConfetti, 450);
 
   // Try direct autoplay if browser permits unprompted audio
   const audio = getAudioElement();
