@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>ICONIC // The Birthday Issue ✨</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          screens: {
+            xs: '375px',
+          },
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            serif: ['"Playfair Display"', 'serif'],
+            display: ['"Cinzel"', 'serif'],
+            mono: ['"Space Grotesk"', 'monospace'],
+          },
+          colors: {
+            gold: {
+              300: '#fde047',
+              400: '#facc15',
+              500: '#eab308',
+              600: '#ca8a04',
+            },
+            champagne: '#f7e7ce',
+            obsidian: '#08090d',
+          },
+        }
+      }
+    }
+  </script>
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-obsidian text-slate-100 font-sans h-full min-h-screen overflow-x-hidden selection:bg-amber-400 selection:text-black">
+
+  <!-- Ambient Dynamic Aura Glow -->
+  <div id="spatial-ambient-aura" class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-gradient-to-tr from-amber-500/15 via-rose-500/15 to-violet-600/15 blur-[120px] pointer-events-none -z-10 transition-transform duration-700"></div>
+
+  <!-- Real Audio Element: Happy Birthday Song -->
+  <audio id="birthday-audio" src="happy_birthday.wav" loop preload="auto" playsinline></audio>
+
+  <!-- Interactive Sparkles Canvas (Background & Click Emitter) -->
+  <canvas id="fx-canvas" class="fixed inset-0 pointer-events-none z-40"></canvas>
+
+  <!-- ========================================================================= -->
+  <!-- ENTRANCE GATEWAY: LUXURY FROSTED GLASS VAULT & GUARANTEED AUDIO AUTOPLAY -->
+  <!-- ========================================================================= -->
+  <div id="entrance-curtain" onclick="enterExperienceWithAudio()" class="fixed inset-0 z-50 bg-[#06070a]/95 backdrop-blur-3xl flex flex-col items-center justify-center p-4 sm:p-6 text-center transition-all duration-700 cursor-pointer overflow-hidden">
+    
+    <!-- Ambient Light Bloom Behind Curtain -->
+    <div class="absolute w-[450px] sm:w-[600px] h-[450px] sm:h-[600px] rounded-full bg-gradient-to-tr from-amber-500/20 via-rose-500/15 to-violet-600/20 blur-[130px] pointer-events-none -z-10 animate-pulse-glow"></div>
+
+    <!-- The Luxury Frosted Glass Keepsake Card -->
+    <div class="relative flex flex-col items-center max-w-sm sm:max-w-md w-full bg-white/[0.04] backdrop-blur-2xl border border-white/20 rounded-[32px] sm:rounded-[38px] p-6 sm:p-9 shadow-[0_30px_90px_rgba(0,0,0,0.85),0_0_50px_rgba(251,191,36,0.12)] animate-fadeIn pointer-events-auto select-none" onclick="event.stopPropagation()">
+      
+      <!-- Sleek Glowing Birthday Cake & Candle Flame Emblem (Enlarged & Prominent) -->
+      <div class="relative flex items-center justify-center my-5 mb-8 cursor-pointer group" onclick="enterExperienceWithAudio()">
+        <!-- Outer Ambient Halo -->
+        <div class="absolute w-44 h-44 sm:w-52 sm:h-52 rounded-full bg-amber-400/20 blur-2xl animate-pulse pointer-events-none"></div>
+        <div class="absolute w-36 h-36 sm:w-44 sm:h-44 rounded-full border border-amber-400/35 animate-pulse-ring pointer-events-none"></div>
+        
+        <!-- Luxury Glass Frame (Enlarged) -->
+        <div class="relative w-32 h-32 sm:w-36 sm:h-36 rounded-[32px] sm:rounded-[36px] bg-gradient-to-b from-white/20 to-black/60 border border-white/35 shadow-[0_16px_50px_rgba(251,191,36,0.4)] flex items-center justify-center backdrop-blur-2xl transform group-hover:scale-105 group-hover:border-amber-400/80 transition-all duration-300">
+          
+          <!-- Large High-Fidelity Vector Birthday Cake -->
+          <svg class="w-20 h-20 sm:w-24 sm:h-24 text-amber-300 drop-shadow-[0_0_22px_rgba(251,191,36,0.9)]" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- Candle Flame with Dynamic Halo -->
+            <path d="M24 4.5C24 4.5 20.5 9.5 20.5 12.5C20.5 14.43 22.07 16 24 16C25.93 16 27.5 14.43 27.5 12.5C27.5 9.5 24 4.5 24 4.5Z" fill="url(#flameGrad)" class="animate-pulse"/>
+            <circle cx="24" cy="12.5" r="2" fill="#FFF"/>
+            <!-- Candle Wick -->
+            <line x1="24" y1="16" x2="24" y2="20" stroke="#FDE047" stroke-width="2.4" stroke-linecap="round"/>
+            <!-- Cake Top Layer (Tier 1) -->
+            <path d="M16 23C16 21.34 17.34 20 19 20H29C30.66 20 32 21.34 32 23V27C32 27 30 26 28.5 27C27 28 25.5 26 24 27C22.5 28 21 26 19.5 27C18 28 16 27 16 27V23Z" fill="url(#cakeGradTop)" stroke="#FDE047" stroke-width="1.5"/>
+            <!-- Cake Bottom Layer (Tier 2) -->
+            <path d="M12 30C12 28.34 13.34 27 15 27H33C34.66 27 36 28.34 36 30V38C36 39.1 35.1 40 34 40H14C12.9 40 12 39.1 12 38V30Z" fill="url(#cakeGradBottom)" stroke="#FDE047" stroke-width="1.5"/>
+            <!-- Frosting Accents -->
+            <circle cx="18" cy="33.5" r="1.6" fill="#FFF"/>
+            <circle cx="24" cy="33.5" r="1.6" fill="#FFF"/>
+            <circle cx="30" cy="33.5" r="1.6" fill="#FFF"/>
+            <!-- Cake Base Stand -->
+            <line x1="8" y1="41" x2="40" y2="41" stroke="#FDE047" stroke-width="2.8" stroke-linecap="round"/>
+            <defs>
+              <linearGradient id="flameGrad" x1="24" y1="4.5" x2="24" y2="16" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#FFF"/>
+                <stop offset="0.4" stop-color="#FBBF24"/>
+                <stop offset="1" stop-color="#EF4444"/>
+              </linearGradient>
+              <linearGradient id="cakeGradTop" x1="24" y1="20" x2="24" y2="27" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#FDE047"/>
+                <stop offset="1" stop-color="#CA8A04"/>
+              </linearGradient>
+              <linearGradient id="cakeGradBottom" x1="24" y1="27" x2="24" y2="40" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#FEF08A"/>
+                <stop offset="1" stop-color="#EAB308"/>
+              </linearGradient>
+            </defs>
+          </svg>
+
+        </div>
+      </div>
+
+      <!-- High-Fashion Typography -->
+      <span class="text-[11px] sm:text-xs font-mono tracking-[0.25em] uppercase text-zinc-400 font-semibold mb-1.5">
+        A SPECIAL BIRTHDAY TRIBUTE
+      </span>
+
+      <h1 class="text-3xl sm:text-4xl md:text-5xl font-serif font-black tracking-tight text-transparent bg-clip-text bg-gradient-to-b from-white via-zinc-100 to-amber-200 drop-shadow-md mb-2.5">
+        For Hoshini ✨
+      </h1>
+
+      <p class="text-xs sm:text-sm text-zinc-300 font-sans mb-7 leading-relaxed max-w-xs">
+        An interactive 3D digital keepsake curated with music and special surprises.
+      </p>
+
+      <!-- The Shimmering Liquid Gold Button -->
+      <button onclick="enterExperienceWithAudio()" class="animate-shimmer w-full py-4 px-6 rounded-2xl bg-gradient-to-r from-amber-400 via-amber-300 to-amber-500 text-black font-mono font-bold text-xs sm:text-sm tracking-wider uppercase shadow-[0_12px_40px_rgba(251,191,36,0.45)] hover:shadow-[0_18px_50px_rgba(251,191,36,0.65)] transform hover:scale-[1.02] active:scale-95 transition-all flex items-center justify-center gap-2.5 group cursor-pointer border border-amber-200/50">
+        <span class="text-base group-hover:scale-125 transition-transform">🎵</span>
+        <span class="font-extrabold tracking-widest">UNWRAP CELEBRATION</span>
+        <span class="text-amber-900 text-sm">✦</span>
+      </button>
+
+      <!-- Subtext / Credit -->
+      <div class="mt-5 flex flex-col items-center gap-1 text-[9.5px] sm:text-[10px] font-mono text-zinc-500 tracking-wider">
+        <span>TAP ANYWHERE TO ENTER WITH MUSIC</span>
+        <span class="text-amber-400/80 font-medium tracking-widest mt-0.5">CRAFTED BY SAIKIRAN</span>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Floating Quick Music ON/OFF Controller (Always accessible) -->
+  <div class="fixed bottom-5 right-5 z-40">
+    <button id="floating-music-btn" onclick="toggleBirthdaySong()" class="px-3.5 sm:px-4 py-2 rounded-full backdrop-blur-xl bg-black/80 hover:bg-black border border-white/20 text-zinc-400 hover:text-white shadow-2xl flex items-center gap-2 font-mono text-xs font-medium transition-all hover:scale-105 active:scale-95">
+      <span id="floating-music-icon">🔇</span>
+      <span id="floating-music-text">Music: OFF</span>
+    </button>
+  </div>
+
+  <!-- Global Header -->
+  <header class="fixed top-0 left-0 right-0 z-50 px-3 sm:px-8 py-2.5 sm:py-3 backdrop-blur-xl bg-black/60 border-b border-white/10 flex items-center justify-between gap-2 sm:gap-3">
+    <!-- Cute Header Sentence -->
+    <div class="flex items-center gap-2 overflow-hidden flex-1 min-w-0">
+      <span class="text-amber-400 text-xs sm:text-sm flex-shrink-0 animate-pulse">✨</span>
+      <p class="text-[11px] sm:text-sm font-serif italic text-amber-200/95 tracking-wide truncate">
+        "To the sweetest soul and prettiest smile on her special day ✨"
+      </p>
+    </div>
+
+    <!-- Right Controls: Birthday Music Player -->
+    <div class="flex items-center gap-2 sm:gap-3 flex-shrink-0">
+      <!-- Music Toggle Button: ON / OFF -->
+      <button id="song-toggle-btn" onclick="toggleBirthdaySong()" class="px-3 sm:px-4 py-1.5 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 text-zinc-400 hover:text-white text-[11px] sm:text-xs font-mono font-medium transition-all duration-300 flex items-center gap-2 group shadow-lg active:scale-95">
+        <span id="music-disc-icon" class="text-xs sm:text-sm">🔇</span>
+        <span id="song-btn-label">Music: OFF</span>
+        <div id="audio-bars" class="flex items-end gap-0.5 h-3 w-3 ml-0.5">
+          <span class="bar bar-1 w-0.5 bg-amber-400 rounded-full h-1.5"></span>
+          <span class="bar bar-2 w-0.5 bg-amber-400 rounded-full h-2.5"></span>
+          <span class="bar bar-3 w-0.5 bg-amber-400 rounded-full h-1"></span>
+        </div>
+      </button>
+    </div>
+  </header>
+
+  <!-- MAIN CONTAINER -->
+  <main class="relative min-h-screen pt-20 pb-16 px-4 flex flex-col items-center justify-center overflow-hidden">
+
+    <!-- Top Running Marquee Tape -->
+    <div class="w-full max-w-2xl overflow-hidden py-1 border-y border-white/10 mb-6 font-mono text-[11px] tracking-widest text-zinc-400 uppercase flex gap-8 whitespace-nowrap">
+      <div class="inline-flex gap-8 animate-marquee">
+        <span>★ THE BIRTHDAY ISSUE</span>
+        <span>•</span>
+        <span>VOLUME 2026</span>
+        <span>•</span>
+        <span>CERTIFIED 1 OF 1</span>
+        <span>•</span>
+        <span>DEFINING TIMELESS ELEGANCE</span>
+        <span>•</span>
+        <span>HAPPY BIRTHDAY</span>
+        <span>★</span>
+      </div>
+    </div>
+
+    <!-- Interactive Lens Filter Buttons -->
+    <div class="flex items-center gap-2 mb-6 max-w-full overflow-x-auto no-scrollbar py-1 px-2 z-20">
+      <span class="text-xs font-mono text-zinc-400 mr-1 hidden sm:inline">LENS FILTER:</span>
+      <button onclick="setPhotoFilter('golden')" class="filter-btn active px-3.5 py-1.5 rounded-full text-xs font-mono bg-white/10 hover:bg-white/20 border border-white/20 transition-all">✨ Golden Hour</button>
+      <button onclick="setPhotoFilter('film35')" class="filter-btn px-3.5 py-1.5 rounded-full text-xs font-mono bg-white/10 hover:bg-white/20 border border-white/20 transition-all text-zinc-400">🎞️ 35mm Grain</button>
+      <button onclick="setPhotoFilter('cyber')" class="filter-btn px-3.5 py-1.5 rounded-full text-xs font-mono bg-white/10 hover:bg-white/20 border border-white/20 transition-all text-zinc-400">🔮 Cyber Neon</button>
+      <button onclick="setPhotoFilter('noir')" class="filter-btn px-3.5 py-1.5 rounded-full text-xs font-mono bg-white/10 hover:bg-white/20 border border-white/20 transition-all text-zinc-400">🖤 Vintage Noir</button>
+      <button onclick="setPhotoFilter('normal')" class="filter-btn px-3.5 py-1.5 rounded-full text-xs font-mono bg-white/10 hover:bg-white/20 border border-white/20 transition-all text-zinc-400">Clear</button>
+    </div>
+
+    <!-- 3D SPATIAL EDITORIAL MAGAZINE WRAPPER -->
+    <div class="perspective-container my-2 z-20 flex justify-center items-center w-full px-2">
+      
+      <!-- The 3D Spatial Tilting Magazine Card (Responsive max width: 330px on small mobile, 390px on tablet, 420px on desktop) -->
+      <div id="spatial-editorial-card" class="spatial-editorial-card relative w-full max-w-[325px] sm:max-w-[380px] md:max-w-[410px] aspect-[3/4.6] rounded-[24px] sm:rounded-[28px] overflow-hidden shadow-2xl border border-white/20 transition-transform duration-150 ease-out select-none">
+        
+        <!-- Interactive Moving Glass Specular Highlight -->
+        <div id="glass-specular" class="glass-specular absolute inset-0 pointer-events-none z-30 transition-opacity duration-300"></div>
+        <div class="glass-rim absolute inset-0 rounded-[24px] sm:rounded-[28px] pointer-events-none z-30 border border-white/30 shadow-[inset_0_1px_2px_rgba(255,255,255,0.4)]"></div>
+
+        <!-- Filter & Grain Overlay Canvas Container -->
+        <div id="editorial-filter-layer" class="filter-golden relative w-full h-full overflow-hidden transition-all duration-500">
+          
+          <!-- Background Photo: Her Picture -->
+          <img id="editorial-hero-img" class="hero-photo-target w-full h-full object-cover transition-all duration-500" src="birthday_girl.png" alt="Birthday Girl">
+          
+          <!-- Film Grain Texture Layer -->
+          <div class="film-grain-layer absolute inset-0 pointer-events-none opacity-30 mix-blend-overlay z-10"></div>
+
+          <!-- Subtle Vignette & Gradient for readable typography -->
+          <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-black/60 pointer-events-none z-10"></div>
+
+          <!-- 3D FLOATING CONTENT LAYERS (Preserves 3D depth) -->
+          <div class="absolute inset-0 p-4 sm:p-7 flex flex-col justify-between z-20 pointer-events-none">
+            
+            <!-- Top Masthead (Floating depth Z: 25px) -->
+            <div class="layer-depth-top flex flex-col items-center border-b border-white/30 pb-1.5 sm:pb-2">
+              <div class="w-full flex justify-between text-[9px] sm:text-[10px] font-mono text-white/80 tracking-widest">
+                <span>VOL. 2026 • ISSUE 01</span>
+                <span>SPECIAL ISSUE</span>
+                <span>PRICE: PRICELESS</span>
+              </div>
+              <h1 class="text-4xl sm:text-6xl md:text-7xl font-serif font-black tracking-tight text-white uppercase mt-1 drop-shadow-lg">
+                ICONIC
+              </h1>
+            </div>
+
+            <!-- Floating Mini Holographic Stickers (Positioned lower, clearing her face) -->
+            <div class="layer-depth-stickers pointer-events-auto flex justify-between items-center mt-auto mb-2 px-0.5">
+              <div class="bg-amber-400 text-black font-mono font-bold text-[7.5px] sm:text-[9px] px-1.5 sm:px-2 py-0.5 rounded-md shadow-lg uppercase transform -rotate-3 cursor-pointer hover:rotate-0 hover:scale-105 transition-all border border-amber-300 select-none tracking-tight" onclick="triggerStickerChime(this)" title="Tap to shuffle text">
+                ★ 100% MAIN CHARACTER
+              </div>
+              <div id="sticker-badge-right" class="bg-white/95 text-black font-mono font-bold text-[7.5px] sm:text-[9px] px-1.5 sm:px-2 py-0.5 rounded-md shadow-lg uppercase transform rotate-3 cursor-pointer hover:rotate-0 hover:scale-105 transition-all border border-white select-none tracking-tight" onclick="triggerStickerChime(this)" title="Tap to shuffle text">
+                HEART OF PURE GOLD 💛
+              </div>
+            </div>
+
+            <!-- Bottom Cover Headlines & Barcode (Floating depth Z: 30px) -->
+            <div class="layer-depth-bottom space-y-2.5 sm:space-y-3 pt-2">
+              <div class="flex items-end justify-between">
+                <div>
+                  <span class="text-amber-400 text-[10px] sm:text-[11px] font-mono font-bold tracking-widest uppercase">COVER EXCLUSIVE</span>
+                  <h2 class="text-xl sm:text-3xl font-serif font-bold text-white leading-tight drop-shadow-md">
+                    Birthday Star
+                  </h2>
+                  <p class="text-[11px] sm:text-xs text-zinc-300 font-sans max-w-[210px] sm:max-w-xs mt-0.5 leading-snug">
+                    "Redefining elegance, brilliance, and endless radiance for another unforgettable year."
+                  </p>
+                </div>
+
+                <!-- Authentic Barcode -->
+                <div class="hidden xs:flex flex-col items-end opacity-90">
+                  <div class="flex items-end gap-0.5 h-7 sm:h-8">
+                    <span class="w-1 bg-white h-full"></span>
+                    <span class="w-0.5 bg-white h-full"></span>
+                    <span class="w-1.5 bg-white h-full"></span>
+                    <span class="w-0.5 bg-white h-full"></span>
+                    <span class="w-2 bg-white h-full"></span>
+                    <span class="w-1 bg-white h-full"></span>
+                    <span class="w-0.5 bg-white h-full"></span>
+                    <span class="w-1.5 bg-white h-full"></span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Interactive Slide-Out Letter Trigger Button -->
+              <div class="pt-0.5 pointer-events-auto">
+                <button onclick="toggleEditorialLetter()" class="w-full py-2 sm:py-2.5 px-3 sm:px-4 rounded-xl bg-white/20 hover:bg-white/30 active:scale-98 border border-white/30 backdrop-blur-md text-white text-[11px] sm:text-xs font-mono uppercase tracking-wider flex items-center justify-center gap-2 transition-all shadow-lg hover:shadow-amber-500/10">
+                  <span class="text-sm sm:text-base text-amber-300">📜</span>
+                  <span>Read The Editor's Birthday Letter</span>
+                </button>
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- Below The Card: Dedicated Greeting for Hoshini -->
+    <div class="mt-7 sm:mt-8 flex flex-col items-center text-center gap-2 z-20 animate-fadeIn">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-mono uppercase tracking-widest bg-amber-400/10 text-amber-300 border border-amber-400/20 mb-1">
+        <span class="w-1.5 h-1.5 rounded-full bg-amber-400 animate-ping"></span>
+        SPECIAL DAY • TODAY
+      </div>
+      <h2 class="text-2xl sm:text-4xl md:text-5xl font-serif font-black tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-white to-amber-300 drop-shadow-2xl">
+        Happy Birthday Pandii ✨
+      </h2>
+      <p class="text-xs sm:text-sm font-sans italic text-zinc-300 max-w-md">
+        "Wishing you a year filled with endless laughter, boundless happiness, and all the dreams your heart can hold."
+      </p>
+
+      <!-- Quick Celebrate Cheer Button -->
+      <div class="mt-2 flex items-center gap-3">
+        <button onclick="launchCelebrationExplosion(event)" class="px-5 py-2 rounded-full bg-amber-500/20 hover:bg-amber-500/30 border border-amber-400/40 text-amber-300 text-xs font-mono transition-all flex items-center gap-2 active:scale-95 shadow-lg shadow-amber-500/10 hover:scale-105">
+          <span>🎉</span>
+          <span>Shower with Confetti!</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Sleek Designer Signature Footer -->
+    <footer class="mt-12 sm:mt-16 text-center z-20 flex flex-col items-center gap-1.5 pb-8 select-none">
+      <div class="flex items-center gap-3">
+        <span class="w-8 sm:w-14 h-[1px] bg-gradient-to-r from-transparent to-amber-400/60"></span>
+        <span class="text-[9.5px] sm:text-[11px] font-mono uppercase tracking-[0.2em] text-zinc-300">
+          SPECIALLY MADE FOR HOSHINI BY <span class="text-amber-300 font-bold tracking-widest drop-shadow-[0_0_8px_rgba(251,191,36,0.4)]">SAIKIRAN</span>
+        </span>
+        <span class="w-8 sm:w-14 h-[1px] bg-gradient-to-l from-transparent to-amber-400/60"></span>
+      </div>
+      <p class="text-[8.5px] sm:text-[9.5px] font-mono text-zinc-500 uppercase tracking-widest">
+        FOR THE BEST HR & AN AWESOME FRIEND
+      </p>
+    </footer>
+
+    <!-- ========================================================================= -->
+    <!-- SLIDE-OUT / POPUP: EDITOR'S BIRTHDAY LETTER                              -->
+    <!-- ========================================================================= -->
+    <div id="editorial-letter-modal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-3 sm:p-4 hidden">
+      <div class="relative w-full max-w-lg bg-[#fbf7f0] text-zinc-900 rounded-2xl sm:rounded-3xl p-5 sm:p-9 shadow-2xl border border-amber-900/20 transform transition-all animate-fadeIn max-h-[90vh] overflow-y-auto">
+        
+        <!-- Close Button -->
+        <button onclick="toggleEditorialLetter()" class="absolute top-5 right-5 w-8 h-8 rounded-full bg-black/10 hover:bg-black/20 flex items-center justify-center text-zinc-700 transition-colors">
+          ✕
+        </button>
+
+        <!-- Letter Header -->
+        <div class="border-b border-zinc-300 pb-4 mb-4 text-center">
+          <span class="text-[10px] font-mono tracking-widest uppercase text-amber-800 font-semibold">CONFIDENTIAL MEMO • FROM YOUR FAVORITE FRIEND</span>
+          <h3 class="text-2xl sm:text-3xl font-serif font-bold text-zinc-950 mt-1">To My Favorite Human, Hoshini ✨</h3>
+          <p class="text-xs text-zinc-500 font-mono mt-0.5">Best Friend Tribute • Strictly For An Iconic Soul</p>
+        </div>
+
+        <!-- Body Text -->
+        <div class="space-y-3 font-serif text-zinc-800 text-sm sm:text-base leading-relaxed max-h-[50vh] overflow-y-auto pr-1">
+          <p class="first-letter:text-5xl first-letter:font-bold first-letter:mr-2 first-letter:float-left message-placeholder leading-relaxed">
+            Happy Birthday Hoshini! Honestly, life would be so unimaginably boring without our endless laughs, chaotic talks, and all the memories we share. Thank you for always being the most genuine, dependable, and hilarious friend anyone could ever ask for. I hope this new chapter brings you massive wins, boundless happiness, unforgettable adventures, and zero stress. Never stop being your bright, iconic self—because you are truly one in a million!
+          </p>
+        </div>
+
+        <!-- Signature & Wax Seal -->
+        <div class="mt-6 pt-4 border-t border-zinc-300 flex items-center justify-between gap-3">
+          <div>
+            <p class="text-sm sm:text-base font-serif italic font-bold text-zinc-950 leading-snug">
+              — Now please approve my upcoming leaves with zero questions asked 😂
+            </p>
+            <p class="text-xs sm:text-sm font-serif italic font-bold text-amber-900 mt-1.5">
+              — Your friend, Saikiran 🚀
+            </p>
+          </div>
+          <!-- Wax Seal -->
+          <div class="w-12 h-12 rounded-full bg-red-800 border-2 border-red-950 shadow-md flex items-center justify-center text-amber-200 font-serif font-bold text-lg select-none flex-shrink-0">
+            ★
+          </div>
+        </div>
+
+        <!-- Celebrate Button -->
+        <button onclick="toggleEditorialLetter(); launchCelebrationExplosion(event);" class="w-full mt-6 py-3 rounded-xl bg-zinc-950 hover:bg-black text-amber-300 font-mono text-xs uppercase tracking-wider transition-all shadow-lg shadow-black/20 flex items-center justify-center gap-2">
+          <span>Seal & Celebrate</span>
+          <span>🎉</span>
+        </button>
+      </div>
+    </div>
+
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
