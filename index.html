@@ -230,10 +230,10 @@
           <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-black/60 pointer-events-none z-10"></div>
 
           <!-- 3D FLOATING CONTENT LAYERS (Preserves 3D depth) -->
-          <div class="absolute inset-0 p-4 sm:p-7 flex flex-col justify-between z-20 pointer-events-none">
+          <div class="absolute inset-0 p-4 sm:p-7 flex flex-col justify-between z-30 pointer-events-none">
             
             <!-- Top Masthead (Floating depth Z: 25px) -->
-            <div class="layer-depth-top flex flex-col items-center border-b border-white/30 pb-1.5 sm:pb-2">
+            <div class="layer-depth-top flex flex-col items-center border-b border-white/30 pb-1.5 sm:pb-2 pointer-events-none">
               <div class="w-full flex justify-between text-[9px] sm:text-[10px] font-mono text-white/80 tracking-widest">
                 <span>VOL. 2026 • ISSUE 01</span>
                 <span>BIRTHDAY QUEEN</span>
@@ -255,8 +255,8 @@
             </div>
 
             <!-- Bottom Cover Headlines & Barcode (Floating depth Z: 30px) -->
-            <div class="layer-depth-bottom space-y-2.5 sm:space-y-3 pt-2">
-              <div class="flex items-end justify-between">
+            <div class="layer-depth-bottom space-y-2.5 sm:space-y-3 pt-2 pointer-events-auto">
+              <div class="flex items-end justify-between pointer-events-none">
                 <div>
                   <span class="text-amber-400 text-[10px] sm:text-[11px] font-mono font-bold tracking-widest uppercase">COVER EXCLUSIVE</span>
                   <h2 class="text-xl sm:text-3xl font-serif font-bold text-white leading-tight drop-shadow-md">
@@ -283,11 +283,11 @@
               </div>
 
               <!-- Interactive Slide-Out Letter Trigger Button (High-visibility Shiny Gold Call to Action) -->
-              <div class="pt-1 pointer-events-auto">
-                <button onclick="toggleEditorialLetter()" class="animate-shimmer letter-pulse-glow w-full py-2.5 sm:py-3 px-3 sm:px-4 rounded-xl sm:rounded-2xl bg-gradient-to-r from-amber-400 via-amber-300 to-amber-500 text-black font-mono font-bold text-[11px] sm:text-xs tracking-wider uppercase border-2 border-amber-200 shadow-xl flex items-center justify-center gap-2 transition-all hover:scale-[1.03] active:scale-95 cursor-pointer select-none">
-                  <span class="text-base sm:text-lg animate-bounce">📜</span>
-                  <span class="font-extrabold tracking-widest text-zinc-950">READ THE BIRTHDAY LETTER</span>
-                  <span class="text-xs text-amber-950 font-black">✦</span>
+              <div class="pt-1 pointer-events-auto relative z-50">
+                <button id="read-letter-btn" type="button" onclick="toggleEditorialLetter(event)" class="animate-shimmer letter-pulse-glow w-full py-2.5 sm:py-3 px-3 sm:px-4 rounded-xl sm:rounded-2xl bg-gradient-to-r from-amber-400 via-amber-300 to-amber-500 text-black font-mono font-bold text-[11px] sm:text-xs tracking-wider uppercase border-2 border-amber-200 shadow-xl flex items-center justify-center gap-2 transition-all hover:scale-[1.03] active:scale-95 cursor-pointer select-none relative z-50 pointer-events-auto" style="touch-action: manipulation; -webkit-tap-highlight-color: transparent;">
+                  <span class="text-base sm:text-lg animate-bounce pointer-events-none">📜</span>
+                  <span class="font-extrabold tracking-widest text-zinc-950 pointer-events-none">READ THE BIRTHDAY LETTER</span>
+                  <span class="text-xs text-amber-950 font-black pointer-events-none">✦</span>
                 </button>
               </div>
 
@@ -314,11 +314,15 @@
         "Wishing you a year filled with endless laughter, boundless happiness, and all the dreams your heart can hold."
       </p>
 
-      <!-- Quick Celebrate Cheer Button -->
-      <div class="mt-2 flex items-center gap-3">
-        <button onclick="launchCelebrationExplosion(event)" class="px-5 py-2 rounded-full bg-amber-500/20 hover:bg-amber-500/30 border border-amber-400/40 text-amber-300 text-xs font-mono transition-all flex items-center gap-2 active:scale-95 shadow-lg shadow-amber-500/10 hover:scale-105">
+      <!-- Quick Action Buttons -->
+      <div class="mt-2 flex flex-wrap justify-center items-center gap-2.5 sm:gap-3">
+        <button onclick="launchCelebrationExplosion(event)" class="px-4 sm:px-5 py-2 rounded-full bg-amber-500/20 hover:bg-amber-500/30 border border-amber-400/40 text-amber-300 text-xs font-mono transition-all flex items-center gap-2 active:scale-95 shadow-lg shadow-amber-500/10 hover:scale-105 cursor-pointer">
           <span>🎉</span>
           <span>Shower with Confetti!</span>
+        </button>
+        <button onclick="toggleEditorialLetter(event)" class="px-4 sm:px-5 py-2 rounded-full bg-gradient-to-r from-amber-400 via-amber-300 to-amber-500 text-black text-xs font-mono font-bold transition-all flex items-center gap-2 active:scale-95 shadow-lg shadow-amber-500/25 hover:scale-105 cursor-pointer">
+          <span>📜</span>
+          <span>Open Birthday Letter</span>
         </button>
       </div>
     </div>
@@ -337,54 +341,56 @@
       </p>
     </footer>
 
-    <!-- ========================================================================= -->
-    <!-- SLIDE-OUT / POPUP: EDITOR'S BIRTHDAY LETTER                              -->
-    <!-- ========================================================================= -->
-    <div id="editorial-letter-modal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-3 sm:p-4 hidden">
-      <div class="relative w-full max-w-lg bg-[#fbf7f0] text-zinc-900 rounded-2xl sm:rounded-3xl p-5 sm:p-9 shadow-2xl border border-amber-900/20 transform transition-all animate-fadeIn max-h-[90vh] overflow-y-auto">
-        
-        <!-- Close Button -->
-        <button onclick="toggleEditorialLetter()" class="absolute top-5 right-5 w-8 h-8 rounded-full bg-black/10 hover:bg-black/20 flex items-center justify-center text-zinc-700 transition-colors">
-          ✕
-        </button>
+  </main>
 
-        <!-- Letter Header -->
-        <div class="border-b border-zinc-300 pb-4 mb-4 text-center">
-          <span class="text-[10px] font-mono tracking-widest uppercase text-amber-800 font-semibold">CONFIDENTIAL MEMO • FROM YOUR FAVORITE FRIEND</span>
-          <h3 class="text-2xl sm:text-3xl font-serif font-bold text-zinc-950 mt-1">To My Favorite Human, Hoshini ✨</h3>
-          <p class="text-xs text-zinc-500 font-mono mt-0.5">Best Friend Tribute • Strictly For An Iconic Soul</p>
-        </div>
+  <!-- ========================================================================= -->
+  <!-- SLIDE-OUT / POPUP: EDITOR'S BIRTHDAY LETTER (Direct Body Child, Z-100)    -->
+  <!-- ========================================================================= -->
+  <div id="editorial-letter-modal" onclick="if(event.target === this) toggleEditorialLetter(event)" class="fixed inset-0 z-[100] bg-black/85 backdrop-blur-md flex items-center justify-center p-3 sm:p-4 hidden">
+    <div class="relative w-full max-w-lg bg-[#fbf7f0] text-zinc-900 rounded-2xl sm:rounded-3xl p-5 sm:p-9 shadow-2xl border border-amber-900/20 transform transition-all animate-fadeIn max-h-[90vh] overflow-y-auto" onclick="event.stopPropagation()">
+      
+      <!-- Close Button -->
+      <button onclick="toggleEditorialLetter(event)" class="absolute top-5 right-5 w-8 h-8 rounded-full bg-black/10 hover:bg-black/20 flex items-center justify-center text-zinc-700 transition-colors cursor-pointer">
+        ✕
+      </button>
 
-        <!-- Body Text -->
-        <div class="space-y-3 font-serif text-zinc-800 text-sm sm:text-base leading-relaxed max-h-[50vh] overflow-y-auto pr-1">
-          <p class="first-letter:text-5xl first-letter:font-bold first-letter:mr-2 first-letter:float-left message-placeholder leading-relaxed">
-            Happy Birthday Hoshini! Honestly, life would be so unimaginably boring without our endless laughs, chaotic talks, and all the memories we share. Thank you for always being the most genuine, dependable, and hilarious friend anyone could ever ask for. I hope this new chapter brings you massive wins, boundless happiness, unforgettable adventures, and zero stress. Never stop being your bright, iconic self—because you are truly one in a million!
+      <!-- Letter Header -->
+      <div class="border-b border-zinc-300 pb-4 mb-4 text-center">
+        <span class="text-[10px] font-mono tracking-widest uppercase text-amber-800 font-semibold">CONFIDENTIAL MEMO • FROM YOUR FAVORITE FRIEND</span>
+        <h3 class="text-2xl sm:text-3xl font-serif font-bold text-zinc-950 mt-1">To My Favorite Human, Hoshini ✨</h3>
+        <p class="text-xs text-zinc-500 font-mono mt-0.5">Best Friend Tribute • Strictly For An Iconic Soul</p>
+      </div>
+
+      <!-- Body Text -->
+      <div class="space-y-3 font-serif text-zinc-800 text-sm sm:text-base leading-relaxed max-h-[50vh] overflow-y-auto pr-1">
+        <p class="first-letter:text-5xl first-letter:font-bold first-letter:mr-2 first-letter:float-left message-placeholder leading-relaxed">
+          Happy Birthday Hoshini! Honestly, life would be so unimaginably boring without our endless laughs, chaotic talks, and all the memories we share. Thank you for always being the most genuine, dependable, and hilarious friend anyone could ever ask for. I hope this new chapter brings you massive wins, boundless happiness, unforgettable adventures, and zero stress. Never stop being your bright, iconic self—because you are truly one in a million!
+        </p>
+      </div>
+
+      <!-- Signature & Wax Seal -->
+      <div class="mt-6 pt-4 border-t border-zinc-300 flex items-center justify-between gap-3">
+        <div>
+          <p class="text-sm sm:text-base font-serif italic font-bold text-zinc-950 leading-snug">
+            — Now please approve my upcoming leaves with zero questions asked 😂
+          </p>
+          <p class="text-xs sm:text-sm font-serif italic font-bold text-amber-900 mt-1.5">
+            — Your friend, Saikiran 🚀
           </p>
         </div>
-
-        <!-- Signature & Wax Seal -->
-        <div class="mt-6 pt-4 border-t border-zinc-300 flex items-center justify-between gap-3">
-          <div>
-            <p class="text-sm sm:text-base font-serif italic font-bold text-zinc-950 leading-snug">
-              — Now please approve my upcoming leaves with zero questions asked 😂
-            </p>
-            <p class="text-xs sm:text-sm font-serif italic font-bold text-amber-900 mt-1.5">
-              — Your friend, Saikiran 🚀
-            </p>
-          </div>
-          <!-- Wax Seal -->
-          <div class="w-12 h-12 rounded-full bg-red-800 border-2 border-red-950 shadow-md flex items-center justify-center text-amber-200 font-serif font-bold text-lg select-none flex-shrink-0">
-            ★
-          </div>
+        <!-- Wax Seal -->
+        <div class="w-12 h-12 rounded-full bg-red-800 border-2 border-red-950 shadow-md flex items-center justify-center text-amber-200 font-serif font-bold text-lg select-none flex-shrink-0">
+          ★
         </div>
-
-        <!-- Celebrate Button -->
-        <button onclick="toggleEditorialLetter(); launchCelebrationExplosion(event);" class="w-full mt-6 py-3 rounded-xl bg-zinc-950 hover:bg-black text-amber-300 font-mono text-xs uppercase tracking-wider transition-all shadow-lg shadow-black/20 flex items-center justify-center gap-2">
-          <span>Seal & Celebrate</span>
-          <span>🎉</span>
-        </button>
       </div>
+
+      <!-- Celebrate Button -->
+      <button onclick="toggleEditorialLetter(event); launchCelebrationExplosion(event);" class="w-full mt-6 py-3 rounded-xl bg-zinc-950 hover:bg-black text-amber-300 font-mono text-xs uppercase tracking-wider transition-all shadow-lg shadow-black/20 flex items-center justify-center gap-2 cursor-pointer">
+        <span>Seal & Celebrate</span>
+        <span>🎉</span>
+      </button>
     </div>
+  </div>
 
   </main>
 

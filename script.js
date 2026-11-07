@@ -458,11 +458,33 @@ function triggerStickerChime(el) {
   }, 200);
 }
 
-function toggleEditorialLetter() {
-  initAudioContext();
-  playChimeEffect(523.25);
+let lastLetterToggleTime = 0;
+
+function toggleEditorialLetter(e) {
+  if (e && typeof e.stopPropagation === 'function') {
+    e.stopPropagation();
+  }
+
+  const now = Date.now();
+  if (now - lastLetterToggleTime < 280) return;
+  lastLetterToggleTime = now;
+
+  try {
+    initAudioContext();
+    playChimeEffect(523.25);
+  } catch (err) {}
+
   const modal = document.getElementById('editorial-letter-modal');
-  modal.classList.toggle('hidden');
+  if (modal) {
+    const isHidden = modal.classList.contains('hidden');
+    if (isHidden) {
+      modal.classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+    } else {
+      modal.classList.add('hidden');
+      document.body.style.overflow = '';
+    }
+  }
 }
 
 // ==========================================
@@ -673,6 +695,21 @@ function spawnAmbientConfetti() {
 window.addEventListener('DOMContentLoaded', () => {
   updateAllPhotos();
   updateAllText();
+
+  // Attach direct multi-touch & click handlers to the Read Letter button
+  const readLetterBtn = document.getElementById('read-letter-btn');
+  if (readLetterBtn) {
+    const handleLetterTouch = (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      toggleEditorialLetter(e);
+    };
+    readLetterBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      toggleEditorialLetter(e);
+    });
+    readLetterBtn.addEventListener('touchend', handleLetterTouch, { passive: false });
+  }
 
   // Keep gentle ambient confetti flowing
   setInterval(spawnAmbientConfetti, 450);

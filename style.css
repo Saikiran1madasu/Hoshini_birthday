@@ -234,4 +234,17 @@ html, body {
   .layer-depth-bottom {
     transform: translateZ(14px);
   }
+  #read-letter-btn {
+    pointer-events: auto !important;
+    cursor: pointer !important;
+    touch-action: manipulation !important;
+    position: relative !important;
+    z-index: 50 !important;
+  }
+}
+
+#read-letter-btn {
+  pointer-events: auto !important;
+  cursor: pointer !important;
+  touch-action: manipulation !important;
 }
