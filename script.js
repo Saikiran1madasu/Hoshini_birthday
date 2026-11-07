@@ -74,22 +74,12 @@ function updateAudioUI(isPlaying) {
   const audioBars = document.getElementById('audio-bars');
   const discIcon = document.getElementById('music-disc-icon');
 
-  const floatBtn = document.getElementById('floating-music-btn');
-  const floatText = document.getElementById('floating-music-text');
-  const floatIcon = document.getElementById('floating-music-icon');
-
   if (isPlaying) {
     if (btnLabel) btnLabel.innerText = 'Music: ON';
     if (discIcon) discIcon.innerText = '🎵';
     if (audioBars) audioBars.classList.add('playing');
     if (btn) {
-      btn.className = "px-3 sm:px-4 py-1.5 rounded-full bg-amber-500/25 hover:bg-amber-500/35 border border-amber-400/50 text-amber-300 text-[11px] sm:text-xs font-mono font-semibold transition-all duration-300 flex items-center gap-2 group shadow-lg shadow-amber-500/10 active:scale-95";
-    }
-
-    if (floatText) floatText.innerText = 'Music: ON';
-    if (floatIcon) floatIcon.innerText = '🎵';
-    if (floatBtn) {
-      floatBtn.className = "px-3.5 sm:px-4 py-2 rounded-full backdrop-blur-xl bg-black/85 hover:bg-black border border-amber-400/50 text-amber-300 shadow-2xl flex items-center gap-2 font-mono text-xs font-bold transition-all hover:scale-105 active:scale-95";
+      btn.className = "px-3 sm:px-4 py-1.5 rounded-full bg-amber-500/25 hover:bg-amber-500/35 border border-amber-400/50 text-amber-300 text-[11px] sm:text-xs font-mono font-semibold transition-all duration-300 flex items-center gap-1.5 sm:gap-2 group shadow-lg shadow-amber-500/10 active:scale-95";
     }
     state.isSongPlaying = true;
   } else {
@@ -97,13 +87,7 @@ function updateAudioUI(isPlaying) {
     if (discIcon) discIcon.innerText = '🔇';
     if (audioBars) audioBars.classList.remove('playing');
     if (btn) {
-      btn.className = "px-3 sm:px-4 py-1.5 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 text-zinc-400 hover:text-white text-[11px] sm:text-xs font-mono font-medium transition-all duration-300 flex items-center gap-2 group shadow-lg active:scale-95";
-    }
-
-    if (floatText) floatText.innerText = 'Music: OFF';
-    if (floatIcon) floatIcon.innerText = '🔇';
-    if (floatBtn) {
-      floatBtn.className = "px-3.5 sm:px-4 py-2 rounded-full backdrop-blur-xl bg-black/85 hover:bg-black border border-white/20 text-zinc-400 hover:text-white shadow-2xl flex items-center gap-2 font-mono text-xs font-medium transition-all hover:scale-105 active:scale-95";
+      btn.className = "px-3 sm:px-4 py-1.5 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 text-zinc-400 hover:text-white text-[11px] sm:text-xs font-mono font-medium transition-all duration-300 flex items-center gap-1.5 sm:gap-2 group shadow-lg active:scale-95";
     }
     state.isSongPlaying = false;
   }
@@ -111,7 +95,8 @@ function updateAudioUI(isPlaying) {
 
 let experienceEntered = false;
 
-function enterExperienceWithAudio() {
+function enterExperienceWithAudio(e) {
+  if (e && e.stopPropagation) e.stopPropagation();
   if (experienceEntered) return;
   experienceEntered = true;
 
@@ -129,7 +114,7 @@ function enterExperienceWithAudio() {
 
   // Fire celebratory confetti cannons
   launchAutoConfettiShow();
-  setTimeout(() => launchAutoConfettiShow(), 1600);
+  setTimeout(() => launchAutoConfettiShow(), 1500);
 }
 
 function startBirthdaySong() {
@@ -137,7 +122,7 @@ function startBirthdaySong() {
   const audio = getAudioElement();
   if (!audio) return;
 
-  audio.volume = 0.9;
+  audio.volume = 0.95;
   const playPromise = audio.play();
   if (playPromise !== undefined) {
     playPromise
@@ -145,7 +130,7 @@ function startBirthdaySong() {
         updateAudioUI(true);
       })
       .catch((err) => {
-        console.log("Audio waiting for user gesture:", err);
+        console.warn("Direct audio play retry:", err);
         updateAudioUI(false);
       });
   }
@@ -259,39 +244,20 @@ function resetSpatial3D() {
   }
 }
 
-// Mouse movement listener
+// Mouse movement listener (Active strictly on Desktop with fine mouse pointers)
+const isDesktopPointer = window.matchMedia('(hover: hover) and (pointer: fine)');
+
 window.addEventListener('mousemove', (e) => {
-  applySpatial3D(e.clientX, e.clientY);
+  if (isDesktopPointer.matches) {
+    applySpatial3D(e.clientX, e.clientY);
+  }
 });
 
 // Smooth reset on mouse leave window
 document.addEventListener('mouseleave', () => {
-  resetSpatial3D();
-});
-
-// Mobile Gyroscope / Device Orientation Support
-if (window.DeviceOrientationEvent) {
-  window.addEventListener('deviceorientation', (e) => {
-    if (e.gamma !== null && e.beta !== null) {
-      const tiltX = Math.min(Math.max(e.gamma, -25), 25) / 25;
-      const tiltY = Math.min(Math.max(e.beta - 45, -25), 25) / 25;
-      applySpatial3D(
-        window.innerWidth / 2 + tiltX * (window.innerWidth / 3),
-        window.innerHeight / 2 + tiltY * (window.innerHeight / 3)
-      );
-    }
-  });
-}
-
-// Touch Drag Support for Mobile
-window.addEventListener('touchmove', (e) => {
-  if (e.touches && e.touches[0]) {
-    applySpatial3D(e.touches[0].clientX, e.touches[0].clientY);
+  if (isDesktopPointer.matches) {
+    resetSpatial3D();
   }
-}, { passive: true });
-
-window.addEventListener('touchend', () => {
-  resetSpatial3D();
 });
 
 // ==========================================
