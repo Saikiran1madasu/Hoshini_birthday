@@ -182,6 +182,22 @@
   animation: pulseRing 3.5s ease-in-out infinite;
 }
 
+/* Eye-Catching Shiny Letter Pulse Animation */
+@keyframes letterPulseGlow {
+  0%, 100% {
+    box-shadow: 0 0 16px rgba(251, 191, 36, 0.5), 0 4px 14px rgba(0, 0, 0, 0.5);
+    transform: scale(1);
+  }
+  50% {
+    box-shadow: 0 0 32px rgba(251, 191, 36, 0.9), 0 0 48px rgba(245, 158, 11, 0.5);
+    transform: scale(1.02);
+  }
+}
+
+.letter-pulse-glow {
+  animation: letterPulseGlow 2.4s ease-in-out infinite;
+}
+
 /* Hide scrollbars */
 .no-scrollbar::-webkit-scrollbar {
   display: none;
