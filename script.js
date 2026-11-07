@@ -46,9 +46,96 @@ let state = {
 };
 
 // ==========================================
-// AUDIO SYSTEM: REAL INSTRUMENTAL + SYNTH FALLBACK
+// AUDIO SYSTEM: REAL INSTRUMENTAL + SYNTH MELODY FAIL-SAFE
 // ==========================================
 let audioCtx = null;
+let synthInterval = null;
+let isSynthPlaying = false;
+
+// Happy Birthday Chime Melody
+const BDAY_NOTES = [
+  { note: 261.63, dur: 0.35, pause: 0.4 },
+  { note: 261.63, dur: 0.2,  pause: 0.25 },
+  { note: 293.66, dur: 0.55, pause: 0.6 },
+  { note: 261.63, dur: 0.55, pause: 0.6 },
+  { note: 349.23, dur: 0.55, pause: 0.6 },
+  { note: 329.63, dur: 1.0,  pause: 1.1 },
+
+  { note: 261.63, dur: 0.35, pause: 0.4 },
+  { note: 261.63, dur: 0.2,  pause: 0.25 },
+  { note: 293.66, dur: 0.55, pause: 0.6 },
+  { note: 261.63, dur: 0.55, pause: 0.6 },
+  { note: 392.00, dur: 0.55, pause: 0.6 },
+  { note: 349.23, dur: 1.0,  pause: 1.1 },
+
+  { note: 261.63, dur: 0.35, pause: 0.4 },
+  { note: 261.63, dur: 0.2,  pause: 0.25 },
+  { note: 523.25, dur: 0.55, pause: 0.6 },
+  { note: 440.00, dur: 0.55, pause: 0.6 },
+  { note: 349.23, dur: 0.55, pause: 0.6 },
+  { note: 329.63, dur: 0.55, pause: 0.6 },
+  { note: 293.66, dur: 0.7,  pause: 0.8 },
+
+  { note: 466.16, dur: 0.35, pause: 0.4 },
+  { note: 466.16, dur: 0.2,  pause: 0.25 },
+  { note: 440.00, dur: 0.55, pause: 0.6 },
+  { note: 349.23, dur: 0.55, pause: 0.6 },
+  { note: 392.00, dur: 0.55, pause: 0.6 },
+  { note: 349.23, dur: 1.3,  pause: 1.6 }
+];
+
+function playSynthTone(freq, duration) {
+  if (!audioCtx) return;
+  const now = audioCtx.currentTime;
+
+  const osc1 = audioCtx.createOscillator();
+  const osc2 = audioCtx.createOscillator();
+  const gain = audioCtx.createGain();
+
+  osc1.type = 'triangle';
+  osc1.frequency.setValueAtTime(freq, now);
+
+  osc2.type = 'sine';
+  osc2.frequency.setValueAtTime(freq * 2, now);
+
+  gain.gain.setValueAtTime(0.001, now);
+  gain.gain.linearRampToValueAtTime(0.18, now + 0.04);
+  gain.gain.exponentialRampToValueAtTime(0.001, now + duration);
+
+  osc1.connect(gain);
+  osc2.connect(gain);
+  gain.connect(audioCtx.destination);
+
+  osc1.start(now);
+  osc2.start(now);
+  osc1.stop(now + duration + 0.05);
+  osc2.stop(now + duration + 0.05);
+}
+
+function startSynthMelody() {
+  if (isSynthPlaying) return;
+  isSynthPlaying = true;
+  initAudioContext();
+
+  let noteIdx = 0;
+  function scheduleNextNote() {
+    if (!isSynthPlaying) return;
+    const current = BDAY_NOTES[noteIdx];
+    playSynthTone(current.note, current.dur);
+
+    noteIdx = (noteIdx + 1) % BDAY_NOTES.length;
+    synthInterval = setTimeout(scheduleNextNote, current.pause * 1000);
+  }
+  scheduleNextNote();
+}
+
+function stopSynthMelody() {
+  isSynthPlaying = false;
+  if (synthInterval) {
+    clearTimeout(synthInterval);
+    synthInterval = null;
+  }
+}
 
 function initAudioContext() {
   try {
@@ -56,7 +143,7 @@ function initAudioContext() {
       const AudioContext = window.AudioContext || window.webkitAudioContext;
       audioCtx = new AudioContext();
     }
-    if (audioCtx.state === 'suspended') {
+    if (audioCtx && audioCtx.state === 'suspended') {
       audioCtx.resume();
     }
   } catch (e) {
@@ -96,10 +183,13 @@ function updateAudioUI(isPlaying) {
 let experienceEntered = false;
 
 function enterExperienceWithAudio(e) {
-  if (e && e.stopPropagation) e.stopPropagation();
   if (experienceEntered) return;
   experienceEntered = true;
 
+  // 1. Immediately request gyroscope permission (iOS Safari requirement)
+  requestGyroscopePermission();
+
+  // 2. Play audio instantly
   initAudioContext();
   startBirthdaySong();
 
@@ -122,17 +212,26 @@ function startBirthdaySong() {
   const audio = getAudioElement();
   if (!audio) return;
 
-  audio.volume = 0.95;
+  audio.volume = 1.0;
+  if (!audio.src || !audio.src.includes('.mp3')) {
+    audio.src = 'happy_birthday.mp3';
+  }
+  audio.load();
+
   const playPromise = audio.play();
   if (playPromise !== undefined) {
     playPromise
       .then(() => {
+        stopSynthMelody();
         updateAudioUI(true);
       })
       .catch((err) => {
-        console.warn("Direct audio play retry:", err);
-        updateAudioUI(false);
+        console.warn("Direct HTML5 audio blocked, starting chime synth fallback:", err);
+        startSynthMelody();
+        updateAudioUI(true);
       });
+  } else {
+    updateAudioUI(true);
   }
 }
 
@@ -141,18 +240,16 @@ function pauseBirthdaySong() {
   if (audio) {
     audio.pause();
   }
+  stopSynthMelody();
   updateAudioUI(false);
 }
 
 function toggleBirthdaySong() {
   initAudioContext();
-  const audio = getAudioElement();
-  if (!audio) return;
-
-  if (audio.paused) {
-    startBirthdaySong();
-  } else {
+  if (state.isSongPlaying) {
     pauseBirthdaySong();
+  } else {
+    startBirthdaySong();
   }
 }
 
@@ -259,6 +356,74 @@ document.addEventListener('mouseleave', () => {
     resetSpatial3D();
   }
 });
+
+// ==========================================
+// SMOOTH CALIBRATED GYROSCOPE ENGINE (MOBILE)
+// ==========================================
+let targetTiltX = 0;
+let targetTiltY = 0;
+let currentTiltX = 0;
+let currentTiltY = 0;
+let baseBeta = null;
+let baseGamma = null;
+let isGyroActive = false;
+
+function requestGyroscopePermission() {
+  if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
+    DeviceOrientationEvent.requestPermission()
+      .then(response => {
+        if (response === 'granted') {
+          initSmoothGyroscope();
+        }
+      })
+      .catch(err => {
+        console.warn("Orientation permission:", err);
+      });
+  } else {
+    initSmoothGyroscope();
+  }
+}
+
+function initSmoothGyroscope() {
+  if (isGyroActive) return;
+  isGyroActive = true;
+
+  window.addEventListener('deviceorientation', (e) => {
+    if (e.beta === null || e.gamma === null) return;
+
+    // Auto-calibrate natural resting angle of the phone
+    if (baseBeta === null) {
+      baseBeta = e.beta;
+      baseGamma = e.gamma;
+    }
+
+    // Relative tilt from natural hand position
+    const deltaBeta = e.beta - baseBeta;
+    const deltaGamma = e.gamma - baseGamma;
+
+    // Clamped subtle range: max +-8 degrees (never flips upside down)
+    targetTiltX = Math.max(-8, Math.min(8, -deltaBeta * 0.35));
+    targetTiltY = Math.max(-8, Math.min(8, deltaGamma * 0.35));
+  }, { passive: true });
+
+  // Silky 60fps LERP interpolation loop (eliminates shaking/jitter)
+  function renderGyroLoop() {
+    if (isGyroActive && card && !isDesktopPointer.matches) {
+      currentTiltX += (targetTiltX - currentTiltX) * 0.08;
+      currentTiltY += (targetTiltY - currentTiltY) * 0.08;
+
+      card.style.transform = `perspective(1000px) rotateX(${currentTiltX.toFixed(2)}deg) rotateY(${currentTiltY.toFixed(2)}deg)`;
+
+      // Dynamic specular highlight reflection
+      const specX = 50 + currentTiltY * 3.5;
+      const specY = 40 + currentTiltX * 3.5;
+      card.style.setProperty('--mouse-x', `${specX}%`);
+      card.style.setProperty('--mouse-y', `${specY}%`);
+    }
+    requestAnimationFrame(renderGyroLoop);
+  }
+  requestAnimationFrame(renderGyroLoop);
+}
 
 // ==========================================
 // EDITORIAL LENS FILTERS

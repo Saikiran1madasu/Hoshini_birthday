@@ -120,7 +120,12 @@
   filter: none;
 }
 
-/* Filter Button Active */
+/* Filter Button Styling (Guaranteed horizontal pill shape) */
+.filter-btn {
+  white-space: nowrap !important;
+  flex-shrink: 0 !important;
+}
+
 .filter-btn.active {
   background: rgba(251, 191, 36, 0.3) !important;
   color: #fff !important;
@@ -195,17 +200,22 @@ html, body {
 
 @media (max-width: 768px), (pointer: coarse) {
   .perspective-container {
-    perspective: none;
+    perspective: 1000px;
   }
   .spatial-editorial-card {
-    transform: none !important;
+    will-change: transform;
+    transition: transform 0.12s ease-out;
     box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.85),
                 0 12px 28px -8px rgba(234, 179, 8, 0.25),
                 0 0 0 1px rgba(255, 255, 255, 0.18);
   }
-  .layer-depth-top,
-  .layer-depth-stickers,
+  .layer-depth-top {
+    transform: translateZ(10px);
+  }
+  .layer-depth-stickers {
+    transform: translateZ(18px);
+  }
   .layer-depth-bottom {
-    transform: none !important;
+    transform: translateZ(14px);
   }
 }

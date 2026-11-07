@@ -48,11 +48,8 @@
   <!-- Ambient Dynamic Aura Glow -->
   <div id="spatial-ambient-aura" class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-gradient-to-tr from-amber-500/15 via-rose-500/15 to-violet-600/15 blur-[120px] pointer-events-none -z-10 transition-transform duration-700"></div>
 
-  <!-- Real Audio Element: Happy Birthday Song (MP3 + WAV fallback) -->
-  <audio id="birthday-audio" loop preload="auto" playsinline>
-    <source src="happy_birthday.mp3" type="audio/mpeg">
-    <source src="happy_birthday.wav" type="audio/wav">
-  </audio>
+  <!-- Real Audio Element: Happy Birthday Song -->
+  <audio id="birthday-audio" src="happy_birthday.mp3" loop preload="auto" playsinline webkit-playsinline></audio>
 
   <!-- Interactive Sparkles Canvas (Background & Click Emitter) -->
   <canvas id="fx-canvas" class="fixed inset-0 pointer-events-none z-40"></canvas>
@@ -66,7 +63,7 @@
     <div class="absolute w-[450px] sm:w-[600px] h-[450px] sm:h-[600px] rounded-full bg-gradient-to-tr from-amber-500/20 via-rose-500/15 to-violet-600/20 blur-[130px] pointer-events-none -z-10 animate-pulse-glow"></div>
 
     <!-- The Luxury Frosted Glass Keepsake Card -->
-    <div class="relative flex flex-col items-center max-w-sm sm:max-w-md w-full bg-white/[0.04] backdrop-blur-2xl border border-white/20 rounded-[32px] sm:rounded-[38px] p-6 sm:p-9 shadow-[0_30px_90px_rgba(0,0,0,0.85),0_0_50px_rgba(251,191,36,0.12)] animate-fadeIn pointer-events-auto select-none" onclick="event.stopPropagation()">
+    <div class="relative flex flex-col items-center max-w-sm sm:max-w-md w-full bg-white/[0.04] backdrop-blur-2xl border border-white/20 rounded-[32px] sm:rounded-[38px] p-6 sm:p-9 shadow-[0_30px_90px_rgba(0,0,0,0.85),0_0_50px_rgba(251,191,36,0.12)] animate-fadeIn pointer-events-auto select-none">
       
       <!-- Sleek Glowing Birthday Cake & Candle Flame Emblem (Enlarged & Prominent) -->
       <div class="relative flex items-center justify-center my-5 mb-8 cursor-pointer group" onclick="enterExperienceWithAudio()">
@@ -198,14 +195,16 @@
       </div>
     </div>
 
-    <!-- Interactive Lens Filter Buttons -->
-    <div class="flex items-center gap-2 mb-6 max-w-full overflow-x-auto no-scrollbar py-1 px-2 z-20">
-      <span class="text-xs font-mono text-zinc-400 mr-1 hidden sm:inline">LENS FILTER:</span>
-      <button onclick="setPhotoFilter('golden')" class="filter-btn active px-3.5 py-1.5 rounded-full text-xs font-mono bg-white/10 hover:bg-white/20 border border-white/20 transition-all">✨ Golden Hour</button>
-      <button onclick="setPhotoFilter('film35')" class="filter-btn px-3.5 py-1.5 rounded-full text-xs font-mono bg-white/10 hover:bg-white/20 border border-white/20 transition-all text-zinc-400">🎞️ 35mm Grain</button>
-      <button onclick="setPhotoFilter('cyber')" class="filter-btn px-3.5 py-1.5 rounded-full text-xs font-mono bg-white/10 hover:bg-white/20 border border-white/20 transition-all text-zinc-400">🔮 Cyber Neon</button>
-      <button onclick="setPhotoFilter('noir')" class="filter-btn px-3.5 py-1.5 rounded-full text-xs font-mono bg-white/10 hover:bg-white/20 border border-white/20 transition-all text-zinc-400">🖤 Vintage Noir</button>
-      <button onclick="setPhotoFilter('normal')" class="filter-btn px-3.5 py-1.5 rounded-full text-xs font-mono bg-white/10 hover:bg-white/20 border border-white/20 transition-all text-zinc-400">Clear</button>
+    <!-- Interactive Lens Filter Buttons (Never wraps, sleek horizontal scroll on mobile) -->
+    <div class="w-full max-w-xl mx-auto overflow-x-auto no-scrollbar mb-5 px-3 z-20">
+      <div class="flex items-center justify-start sm:justify-center gap-2 flex-nowrap min-w-max py-1 px-1">
+        <span class="text-[11px] font-mono text-zinc-400 mr-1 hidden sm:inline uppercase tracking-wider">LENS:</span>
+        <button onclick="setPhotoFilter('golden')" class="filter-btn active whitespace-nowrap flex-shrink-0 px-3.5 py-1.5 rounded-full text-[11px] sm:text-xs font-mono bg-white/10 hover:bg-white/20 border border-white/20 transition-all flex items-center gap-1.5 cursor-pointer">✨ Golden Hour</button>
+        <button onclick="setPhotoFilter('film35')" class="filter-btn whitespace-nowrap flex-shrink-0 px-3.5 py-1.5 rounded-full text-[11px] sm:text-xs font-mono bg-white/10 hover:bg-white/20 border border-white/20 transition-all text-zinc-400 flex items-center gap-1.5 cursor-pointer">🎞️ 35mm Grain</button>
+        <button onclick="setPhotoFilter('cyber')" class="filter-btn whitespace-nowrap flex-shrink-0 px-3.5 py-1.5 rounded-full text-[11px] sm:text-xs font-mono bg-white/10 hover:bg-white/20 border border-white/20 transition-all text-zinc-400 flex items-center gap-1.5 cursor-pointer">🔮 Cyber Neon</button>
+        <button onclick="setPhotoFilter('noir')" class="filter-btn whitespace-nowrap flex-shrink-0 px-3.5 py-1.5 rounded-full text-[11px] sm:text-xs font-mono bg-white/10 hover:bg-white/20 border border-white/20 transition-all text-zinc-400 flex items-center gap-1.5 cursor-pointer">🖤 Vintage Noir</button>
+        <button onclick="setPhotoFilter('normal')" class="filter-btn whitespace-nowrap flex-shrink-0 px-3.5 py-1.5 rounded-full text-[11px] sm:text-xs font-mono bg-white/10 hover:bg-white/20 border border-white/20 transition-all text-zinc-400 flex items-center gap-1.5 cursor-pointer">Original</button>
+      </div>
     </div>
 
     <!-- 3D SPATIAL EDITORIAL MAGAZINE WRAPPER -->
