@@ -211,7 +211,7 @@
     <div class="perspective-container my-2 z-20 flex justify-center items-center w-full px-2">
       
       <!-- The 3D Spatial Tilting Magazine Card (Responsive max width: 330px on small mobile, 390px on tablet, 420px on desktop) -->
-      <div id="spatial-editorial-card" class="spatial-editorial-card relative w-full max-w-[325px] sm:max-w-[380px] md:max-w-[410px] aspect-[3/4.6] rounded-[24px] sm:rounded-[28px] overflow-hidden shadow-2xl border border-white/20 transition-transform duration-150 ease-out select-none">
+      <div id="spatial-editorial-card" class="spatial-editorial-card relative w-full max-w-[325px] sm:max-w-[380px] md:max-w-[410px] aspect-[3/4.6] rounded-[24px] sm:rounded-[28px] overflow-hidden shadow-2xl border border-white/20 select-none">
         
         <!-- Interactive Moving Glass Specular Highlight -->
         <div id="glass-specular" class="glass-specular absolute inset-0 pointer-events-none z-30 transition-opacity duration-300"></div>
@@ -220,8 +220,12 @@
         <!-- Filter & Grain Overlay Canvas Container -->
         <div id="editorial-filter-layer" class="filter-golden relative w-full h-full overflow-hidden transition-all duration-500">
           
-          <!-- Background Photo: Her Picture -->
-          <img id="editorial-hero-img" class="hero-photo-target w-full h-full object-cover transition-all duration-500" src="birthday_girl.png" alt="Birthday Girl">
+          <!-- Background Photo: Compressed High-Fidelity WebP with JPG fallback -->
+          <picture>
+            <source srcset="birthday_girl.webp" type="image/webp">
+            <source srcset="birthday_girl.jpg" type="image/jpeg">
+            <img id="editorial-hero-img" class="hero-photo-target w-full h-full object-cover transition-all duration-500" src="birthday_girl.webp" alt="Birthday Girl" loading="eager" decoding="async">
+          </picture>
           
           <!-- Film Grain Texture Layer -->
           <div class="film-grain-layer absolute inset-0 pointer-events-none opacity-30 mix-blend-overlay z-10"></div>

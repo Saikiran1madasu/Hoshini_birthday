@@ -15,15 +15,15 @@
   will-change: transform;
 }
 
-/* Specular Dynamic Glass Highlight that tracks cursor */
+/* Specular Dynamic Glass Highlight that tracks cursor (GPU-accelerated without overlay blend mode) */
 .glass-specular {
   background: radial-gradient(
     circle at var(--mouse-x, 50%) var(--mouse-y, 30%),
-    rgba(255, 255, 255, 0.3) 0%,
-    rgba(255, 255, 255, 0.08) 35%,
+    rgba(255, 255, 255, 0.25) 0%,
+    rgba(255, 255, 255, 0.06) 38%,
     transparent 65%
   );
-  mix-blend-mode: overlay;
+  opacity: 0.9;
 }
 
 /* 3D Layer Depths (Multi-plane Parallax) */
@@ -220,7 +220,6 @@ html, body {
   }
   .spatial-editorial-card {
     will-change: transform;
-    transition: transform 0.12s ease-out;
     box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.85),
                 0 12px 28px -8px rgba(234, 179, 8, 0.25),
                 0 0 0 1px rgba(255, 255, 255, 0.18);

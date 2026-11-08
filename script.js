@@ -7,7 +7,7 @@
 // ==========================================
 // CONFIGURATION & STATE
 // ==========================================
-const DEFAULT_PHOTO = 'birthday_girl.png';
+const DEFAULT_PHOTO = 'birthday_girl.webp';
 const DEFAULT_NAME = 'Hoshini';
 const DEFAULT_MESSAGE = `Happy Birthday Hoshini! Honestly, life would be so unimaginably boring without our endless laughs, chaotic talks, and all the memories we share. Thank you for always being the most genuine, dependable, and hilarious friend anyone could ever ask for. I hope this new chapter brings you massive wins, boundless happiness, unforgettable adventures, and zero stress. Never stop being your bright, iconic self—because you are truly one in a million!`;
 
@@ -324,19 +324,24 @@ function applySpatial3D(clientX, clientY) {
   card.style.setProperty('--mouse-x', `${percentX}%`);
   card.style.setProperty('--mouse-y', `${percentY}%`);
 
-  // 3D Card Transform with perspective depth
-  card.style.transform = `perspective(1200px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
+  // Direct 1:1 hardware-accelerated transform (No CSS transition fight during mouse tracking)
+  card.style.transition = 'none';
+  card.style.transform = `perspective(1200px) rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg) scale3d(1.02, 1.02, 1.02)`;
 
   // Parallax ambient lighting aura
   if (aura) {
-    aura.style.transform = `translate(calc(-50% + ${deltaX * 45}px), calc(-50% + ${deltaY * 45}px))`;
+    aura.style.transition = 'none';
+    aura.style.transform = `translate(calc(-50% + ${(deltaX * 35).toFixed(1)}px), calc(-50% + ${(deltaY * 35).toFixed(1)}px))`;
   }
 }
 
 function resetSpatial3D() {
   if (!card) return;
+  // Apply smooth return transition strictly when leaving the card
+  card.style.transition = 'transform 0.45s cubic-bezier(0.16, 1, 0.3, 1)';
   card.style.transform = 'perspective(1200px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
   if (aura) {
+    aura.style.transition = 'transform 0.45s ease-out';
     aura.style.transform = 'translate(-50%, -50%)';
   }
 }
@@ -359,14 +364,12 @@ document.addEventListener('mouseleave', () => {
 
 // ==========================================
 // SMOOTH CALIBRATED GYROSCOPE ENGINE (MOBILE)
+// Zero-collision GPU hardware acceleration
 // ==========================================
-let targetTiltX = 0;
-let targetTiltY = 0;
-let currentTiltX = 0;
-let currentTiltY = 0;
 let baseBeta = null;
 let baseGamma = null;
 let isGyroActive = false;
+let gyroTicking = false;
 
 function requestGyroscopePermission() {
   if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
@@ -391,37 +394,31 @@ function initSmoothGyroscope() {
   window.addEventListener('deviceorientation', (e) => {
     if (e.beta === null || e.gamma === null) return;
 
-    // Auto-calibrate natural resting angle of the phone
+    // Auto-calibrate natural resting angle of the phone on first frame
     if (baseBeta === null) {
       baseBeta = e.beta;
       baseGamma = e.gamma;
     }
 
-    // Relative tilt from natural hand position
     const deltaBeta = e.beta - baseBeta;
     const deltaGamma = e.gamma - baseGamma;
 
     // Clamped subtle range: max +-8 degrees (never flips upside down)
-    targetTiltX = Math.max(-8, Math.min(8, -deltaBeta * 0.35));
-    targetTiltY = Math.max(-8, Math.min(8, deltaGamma * 0.35));
-  }, { passive: true });
+    const targetTiltX = Math.max(-8, Math.min(8, -deltaBeta * 0.35));
+    const targetTiltY = Math.max(-8, Math.min(8, deltaGamma * 0.35));
 
-  // High-performance smooth LERP interpolation loop (settles and pauses when stable)
-  let gyroAnimId = null;
-  function renderGyroLoop() {
-    if (isGyroActive && card && !isDesktopPointer.matches) {
-      const diffX = targetTiltX - currentTiltX;
-      const diffY = targetTiltY - currentTiltY;
-
-      if (Math.abs(diffX) > 0.04 || Math.abs(diffY) > 0.04) {
-        currentTiltX += diffX * 0.1;
-        currentTiltY += diffY * 0.1;
-        card.style.transform = `perspective(1000px) rotateX(${currentTiltX.toFixed(1)}deg) rotateY(${currentTiltY.toFixed(1)}deg)`;
-      }
+    // Throttled 1-frame dispatch - native GPU interpolation with zero frame collision
+    if (!gyroTicking) {
+      gyroTicking = true;
+      requestAnimationFrame(() => {
+        if (card && !isDesktopPointer.matches) {
+          card.style.transition = 'transform 0.18s cubic-bezier(0.2, 0, 0, 1)';
+          card.style.transform = `perspective(1000px) rotateX(${targetTiltX.toFixed(1)}deg) rotateY(${targetTiltY.toFixed(1)}deg)`;
+        }
+        gyroTicking = false;
+      });
     }
-    gyroAnimId = requestAnimationFrame(renderGyroLoop);
-  }
-  renderGyroLoop();
+  }, { passive: true });
 }
 
 // ==========================================
