@@ -135,12 +135,12 @@
       <div class="mt-5 flex flex-col items-center gap-1.5 text-[9.5px] sm:text-[10px] font-mono tracking-wider">
         <span class="text-zinc-500 text-[9px] sm:text-[9.5px]">TAP ANYWHERE TO ENTER WITH MUSIC</span>
         
-        <div class="flex items-center gap-2 mt-1">
-          <span class="w-4 sm:w-6 h-[1px] bg-gradient-to-r from-transparent to-amber-400/60"></span>
-          <span class="text-[9.5px] sm:text-[10.5px] font-mono uppercase tracking-[0.18em] text-zinc-300">
+        <div class="flex items-center gap-2 mt-1.5">
+          <span class="w-6 sm:w-10 h-[1px] bg-gradient-to-r from-transparent to-amber-400/80"></span>
+          <span class="text-[9.5px] sm:text-[11px] font-mono uppercase tracking-[0.18em] text-zinc-300">
             SPECIALLY MADE FOR HOSHINI BY <span class="text-amber-300 font-bold tracking-widest drop-shadow-[0_0_8px_rgba(251,191,36,0.4)]">SAIKIRAN</span>
           </span>
-          <span class="w-4 sm:w-6 h-[1px] bg-gradient-to-l from-transparent to-amber-400/60"></span>
+          <span class="w-6 sm:w-10 h-[1px] bg-gradient-to-l from-transparent to-amber-400/80"></span>
         </div>
         <p class="text-[8.5px] sm:text-[9.5px] font-mono text-zinc-400 uppercase tracking-widest">
           FOR THE BEST HR & AN AWESOME FRIEND
@@ -195,15 +195,30 @@
       </div>
     </div>
 
-    <!-- Interactive Lens Filter Buttons (Never wraps, sleek horizontal scroll on mobile) -->
-    <div class="w-full max-w-xl mx-auto overflow-x-auto no-scrollbar mb-5 px-3 z-20">
-      <div class="flex items-center justify-start sm:justify-center gap-2 flex-nowrap min-w-max py-1 px-1">
-        <span class="text-[11px] font-mono text-zinc-400 mr-1 hidden sm:inline uppercase tracking-wider">LENS:</span>
-        <button onclick="setPhotoFilter('golden')" class="filter-btn active whitespace-nowrap flex-shrink-0 px-3.5 py-1.5 rounded-full text-[11px] sm:text-xs font-mono bg-white/10 hover:bg-white/20 border border-white/20 transition-all flex items-center gap-1.5 cursor-pointer">✨ Golden Hour</button>
-        <button onclick="setPhotoFilter('film35')" class="filter-btn whitespace-nowrap flex-shrink-0 px-3.5 py-1.5 rounded-full text-[11px] sm:text-xs font-mono bg-white/10 hover:bg-white/20 border border-white/20 transition-all text-zinc-400 flex items-center gap-1.5 cursor-pointer">🎞️ 35mm Grain</button>
-        <button onclick="setPhotoFilter('cyber')" class="filter-btn whitespace-nowrap flex-shrink-0 px-3.5 py-1.5 rounded-full text-[11px] sm:text-xs font-mono bg-white/10 hover:bg-white/20 border border-white/20 transition-all text-zinc-400 flex items-center gap-1.5 cursor-pointer">🔮 Cyber Neon</button>
-        <button onclick="setPhotoFilter('noir')" class="filter-btn whitespace-nowrap flex-shrink-0 px-3.5 py-1.5 rounded-full text-[11px] sm:text-xs font-mono bg-white/10 hover:bg-white/20 border border-white/20 transition-all text-zinc-400 flex items-center gap-1.5 cursor-pointer">🖤 Vintage Noir</button>
-        <button onclick="setPhotoFilter('normal')" class="filter-btn whitespace-nowrap flex-shrink-0 px-3.5 py-1.5 rounded-full text-[11px] sm:text-xs font-mono bg-white/10 hover:bg-white/20 border border-white/20 transition-all text-zinc-400 flex items-center gap-1.5 cursor-pointer">Original</button>
+    <!-- Interactive Lens Filter Buttons (Perfect fit on mobile, no cut-off, no wrapping) -->
+    <div class="w-full max-w-xl mx-auto mb-5 px-1 sm:px-3 z-20">
+      <div class="flex items-center justify-center gap-1 xs:gap-1.5 sm:gap-2 flex-nowrap py-1">
+        <span class="text-[11px] font-mono text-zinc-400 mr-1 hidden md:inline uppercase tracking-wider">LENS:</span>
+        <button onclick="setPhotoFilter('golden')" class="filter-btn active whitespace-nowrap flex-shrink-0 px-2.5 sm:px-3.5 py-1 sm:py-1.5 rounded-full text-[10px] xs:text-[11px] sm:text-xs font-mono bg-white/10 hover:bg-white/20 border border-white/20 transition-all flex items-center gap-1 sm:gap-1.5 cursor-pointer">
+          <span class="text-xs">✨</span>
+          <span>Golden<span class="hidden sm:inline"> Hour</span></span>
+        </button>
+        <button onclick="setPhotoFilter('film35')" class="filter-btn whitespace-nowrap flex-shrink-0 px-2.5 sm:px-3.5 py-1 sm:py-1.5 rounded-full text-[10px] xs:text-[11px] sm:text-xs font-mono bg-white/10 hover:bg-white/20 border border-white/20 transition-all text-zinc-400 flex items-center gap-1 sm:gap-1.5 cursor-pointer">
+          <span class="text-xs">🎞️</span>
+          <span>35mm<span class="hidden sm:inline"> Grain</span></span>
+        </button>
+        <button onclick="setPhotoFilter('cyber')" class="filter-btn whitespace-nowrap flex-shrink-0 px-2.5 sm:px-3.5 py-1 sm:py-1.5 rounded-full text-[10px] xs:text-[11px] sm:text-xs font-mono bg-white/10 hover:bg-white/20 border border-white/20 transition-all text-zinc-400 flex items-center gap-1 sm:gap-1.5 cursor-pointer">
+          <span class="text-xs">🔮</span>
+          <span><span class="hidden sm:inline">Cyber </span>Neon</span>
+        </button>
+        <button onclick="setPhotoFilter('noir')" class="filter-btn whitespace-nowrap flex-shrink-0 px-2.5 sm:px-3.5 py-1 sm:py-1.5 rounded-full text-[10px] xs:text-[11px] sm:text-xs font-mono bg-white/10 hover:bg-white/20 border border-white/20 transition-all text-zinc-400 flex items-center gap-1 sm:gap-1.5 cursor-pointer">
+          <span class="text-xs">🖤</span>
+          <span><span class="hidden sm:inline">Vintage </span>Noir</span>
+        </button>
+        <button onclick="setPhotoFilter('normal')" class="filter-btn whitespace-nowrap flex-shrink-0 px-2.5 sm:px-3.5 py-1 sm:py-1.5 rounded-full text-[10px] xs:text-[11px] sm:text-xs font-mono bg-white/10 hover:bg-white/20 border border-white/20 transition-all text-zinc-400 flex items-center gap-1 sm:gap-1.5 cursor-pointer">
+          <span class="text-xs">✦</span>
+          <span>Clear</span>
+        </button>
       </div>
     </div>
 

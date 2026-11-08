@@ -558,11 +558,16 @@ function updateAllText() {
 }
 
 // ==========================================
-// CANVAS PARTICLES & CONFETTI ENGINE
+// HIGH-PERFORMANCE CONFETTI ENGINE
+// 1. Continuous Gentle Ambient Stream (Zero-allocation fixed pool)
+// 2. High-Energy Celebration Cannons & Click Bursts
 // ==========================================
 const canvas = document.getElementById('fx-canvas');
 const ctx = canvas.getContext('2d');
-let particles = [];
+
+let burstParticles = [];
+const AMBIENT_COUNT = 26;
+let ambientParticles = [];
 
 function resizeCanvas() {
   canvas.width = window.innerWidth;
@@ -571,25 +576,68 @@ function resizeCanvas() {
 window.addEventListener('resize', resizeCanvas);
 resizeCanvas();
 
-class Particle {
-  constructor(x, y, isConfetti = false, angle = null, speed = null) {
+const CONFETTI_COLORS = ['#fde047', '#f59e0b', '#ec4899', '#8b5cf6', '#38bdf8', '#34d399', '#ffffff', '#fb7185'];
+
+// Lightweight Ambient Floating Confetti Ribbon
+class AmbientRibbon {
+  constructor(randomY = true) {
+    this.reset(randomY);
+  }
+
+  reset(randomY = false) {
+    this.x = Math.random() * window.innerWidth;
+    this.y = randomY ? Math.random() * window.innerHeight : -20;
+    this.width = Math.random() * 8 + 6;
+    this.height = Math.random() * 5 + 4;
+    this.speedY = Math.random() * 1.4 + 0.7;
+    this.wobble = Math.random() * Math.PI * 2;
+    this.wobbleSpeed = Math.random() * 0.04 + 0.02;
+    this.rotation = Math.random() * 360;
+    this.rotationSpeed = (Math.random() - 0.5) * 4;
+    this.opacity = Math.random() * 0.45 + 0.45;
+    this.color = CONFETTI_COLORS[Math.floor(Math.random() * CONFETTI_COLORS.length)];
+  }
+
+  update() {
+    this.y += this.speedY;
+    this.wobble += this.wobbleSpeed;
+    this.x += Math.sin(this.wobble) * 1.1;
+    this.rotation += this.rotationSpeed;
+
+    if (this.y > window.innerHeight + 25) {
+      this.reset(false);
+    }
+  }
+
+  draw() {
+    ctx.save();
+    ctx.translate(this.x, this.y);
+    ctx.rotate((this.rotation * Math.PI) / 180);
+    ctx.globalAlpha = this.opacity;
+    ctx.fillStyle = this.color;
+    ctx.fillRect(-this.width / 2, -this.height / 2, this.width, this.height);
+    ctx.restore();
+  }
+}
+
+// Explosive Celebration Burst Particle
+class BurstParticle {
+  constructor(x, y, angle = null, speed = null) {
     this.x = x;
     this.y = y;
-    this.isConfetti = isConfetti;
-    this.size = isConfetti ? Math.random() * 8 + 4 : Math.random() * 3 + 1;
+    this.size = Math.random() * 8 + 5;
     if (angle !== null && speed !== null) {
       this.speedX = Math.cos(angle) * speed;
       this.speedY = Math.sin(angle) * speed;
     } else {
-      this.speedX = (Math.random() - 0.5) * (isConfetti ? 10 : 3);
-      this.speedY = isConfetti ? Math.random() * -12 - 2 : (Math.random() - 0.5) * 3;
+      this.speedX = (Math.random() - 0.5) * 11;
+      this.speedY = Math.random() * -12 - 3;
     }
-    this.gravity = isConfetti ? 0.32 : 0.02;
+    this.gravity = 0.32;
     this.opacity = 1;
     this.rotation = Math.random() * 360;
     this.rotationSpeed = (Math.random() - 0.5) * 14;
-    const colors = ['#fde047', '#f59e0b', '#ec4899', '#8b5cf6', '#38bdf8', '#34d399', '#ffffff', '#fb7185'];
-    this.color = colors[Math.floor(Math.random() * colors.length)];
+    this.color = CONFETTI_COLORS[Math.floor(Math.random() * CONFETTI_COLORS.length)];
   }
 
   update() {
@@ -597,7 +645,7 @@ class Particle {
     this.y += this.speedY;
     this.speedY += this.gravity;
     this.rotation += this.rotationSpeed;
-    this.opacity -= this.isConfetti ? 0.007 : 0.02;
+    this.opacity -= 0.009;
   }
 
   draw() {
@@ -606,41 +654,36 @@ class Particle {
     ctx.rotate((this.rotation * Math.PI) / 180);
     ctx.globalAlpha = Math.max(0, this.opacity);
     ctx.fillStyle = this.color;
-
-    if (this.isConfetti) {
-      ctx.fillRect(-this.size / 2, -this.size / 2, this.size, this.size * 0.6);
-    } else {
-      ctx.beginPath();
-      ctx.arc(0, 0, this.size, 0, Math.PI * 2);
-      ctx.fill();
-    }
+    ctx.fillRect(-this.size / 2, -this.size / 2, this.size, this.size * 0.6);
     ctx.restore();
   }
 }
 
-let isParticleLoopActive = false;
-
-function startParticleLoop() {
-  if (isParticleLoopActive) return;
-  isParticleLoopActive = true;
-  requestAnimationFrame(animateParticles);
+function initAmbientConfetti() {
+  ambientParticles = [];
+  for (let i = 0; i < AMBIENT_COUNT; i++) {
+    ambientParticles.push(new AmbientRibbon(true));
+  }
 }
 
 function animateParticles() {
-  if (particles.length === 0) {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    isParticleLoopActive = false;
-    return; // Completely pause loop when no particles exist!
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  // 1. Draw continuous ambient floating confetti stream
+  for (let i = 0; i < ambientParticles.length; i++) {
+    ambientParticles[i].update();
+    ambientParticles[i].draw();
   }
 
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-  for (let i = particles.length - 1; i >= 0; i--) {
-    particles[i].update();
-    particles[i].draw();
-    if (particles[i].opacity <= 0 || particles[i].y > canvas.height + 20) {
-      particles.splice(i, 1);
+  // 2. Draw explosive celebration burst particles
+  for (let i = burstParticles.length - 1; i >= 0; i--) {
+    burstParticles[i].update();
+    burstParticles[i].draw();
+    if (burstParticles[i].opacity <= 0 || burstParticles[i].y > canvas.height + 25) {
+      burstParticles.splice(i, 1);
     }
   }
+
   requestAnimationFrame(animateParticles);
 }
 
@@ -652,10 +695,9 @@ function launchCelebrationExplosion(e) {
   const originX = e && e.clientX ? e.clientX : window.innerWidth / 2;
   const originY = e && e.clientY ? e.clientY : window.innerHeight / 2;
 
-  for (let i = 0; i < 60; i++) {
-    particles.push(new Particle(originX, originY, true));
+  for (let i = 0; i < 65; i++) {
+    burstParticles.push(new BurstParticle(originX, originY));
   }
-  startParticleLoop();
 }
 
 // Directional Cannon Burst
@@ -663,19 +705,25 @@ function fireCannonBurst(originX, originY, baseAngleDeg, spreadDeg, count = 35) 
   for (let i = 0; i < count; i++) {
     const angleRad = ((baseAngleDeg + (Math.random() - 0.5) * spreadDeg) * Math.PI) / 180;
     const speed = Math.random() * 12 + 8;
-    particles.push(new Particle(originX, originY, true, angleRad, -speed));
+    burstParticles.push(new BurstParticle(originX, originY, angleRad, -speed));
   }
-  startParticleLoop();
 }
 
 // Full Automatic Dual Cannon Show
 function launchAutoConfettiShow() {
   // Left cannon shooting up-right
-  fireCannonBurst(0, window.innerHeight * 0.9, 45, 30, 40);
+  fireCannonBurst(0, window.innerHeight * 0.9, 45, 30, 42);
   // Right cannon shooting up-left
-  fireCannonBurst(window.innerWidth, window.innerHeight * 0.9, 135, 30, 40);
-  startParticleLoop();
+  fireCannonBurst(window.innerWidth, window.innerHeight * 0.9, 135, 30, 42);
 }
+
+// Interactive Click Spark Emitter
+window.addEventListener('click', (e) => {
+  if (e.target.closest('#editorial-letter-modal') || e.target.closest('button') || e.target.closest('#entrance-curtain')) return;
+  for (let i = 0; i < 4; i++) {
+    burstParticles.push(new BurstParticle(e.clientX, e.clientY));
+  }
+});
 
 // ==========================================
 // INITIALIZATION & AUTOPLAY ENGINE
@@ -683,6 +731,10 @@ function launchAutoConfettiShow() {
 window.addEventListener('DOMContentLoaded', () => {
   updateAllPhotos();
   updateAllText();
+
+  // Start continuous 60fps ambient confetti immediately
+  initAmbientConfetti();
+  animateParticles();
 
   // Attach direct multi-touch & click handlers to the Read Letter button
   const readLetterBtn = document.getElementById('read-letter-btn');
